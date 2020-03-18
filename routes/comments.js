@@ -3,20 +3,15 @@ const express = require("express"),
         mergeParams: true
     }),
     Blog = require("../models/blog"),
-    Comment = require("../models/comment");
+    Comment = require("../models/comment"),
+    middleware = require("../middleware");
 
-// middleware function checking if user is logged in, if not redirecting to login page
-const isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+
 
 // ==================================
 //  COMMENTS ROUTES
 // ==================================
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", middleware.isLoggedIn, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
             console.log(err);
@@ -28,7 +23,7 @@ router.get("/new", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
             console.log(err);
@@ -48,6 +43,37 @@ router.post("/", isLoggedIn, (req, res) => {
                 }
             });
         }
+    });
+});
+
+// COMMENT EDIT ROUTE
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req, res) {
+    Comment.findById(req.params.comment_id, function (err, foundComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.render("editcomment", {
+                blog_id: req.params.id,
+                comment: foundComment
+            });
+        }
+    });
+});
+
+// COMMENT UPDATE
+router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/blog/" + req.params.id);
+        }
+    });
+});
+// COMMENT DESTROY ROUTE
+router.delete("/:comment_id", middleware.checkCommentOwnership, (req, res) => {
+    Comment.findByIdAndRemove(req.params.comment_id, err => {
+        err ? res.redirect("back") : res.redirect(`/blog/${req.params.id}`);
     });
 });
 

@@ -1,0 +1,17 @@
+<%- include("partials/header") %>
+<div class="container">
+    <h1>Editing Comment</h1>
+    <form action="/blog/<%=blog_id%>/comment/<%=comment._id%>?_method=PUT" method="POST">
+        <div class="form-group">
+            <label for="commentContent">Comment</label>
+            <input type="text" name="comment[text]" class="form-control" id="commentAuthor" value="<%= comment.text %>">
+            <small class="form-text text-muted">
+                Write something nice :-)
+            </small>
+            <input type="submit" value="Add Comment" class="btn btn-lg btn-primary mt-2">
+        </div>
+    </form>
+</div>
+
+
+<%- include("partials/footer") %>

@@ -1,14 +1,9 @@
 const express = require("express"),
     Blog = require("../models/blog"),
-    router = express.Router();
+    router = express.Router(),
+    middleware = require("../middleware");
 
-// middleware function checking if user is logged in, if not redirecting to login page
-const isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+
 
 //  INDEX ROUTE
 router.get("/", (req, res) => {
@@ -24,12 +19,12 @@ router.get("/", (req, res) => {
 });
 
 // NEW ROUTE
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", middleware.isLoggedIn, (req, res) => {
     res.render("new");
 });
 
 // CREATE ROUTE
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
     req.body.blog.body = req.sanitize(req.body.blog.body);
     const title = req.body.blog.title,
         img = req.body.blog.img,
@@ -66,7 +61,7 @@ router.get("/:id", (req, res) => {
     });
 });
 // EDIT FORM VIEW
-router.get("/:id/edit", isLoggedIn, (req, res) => {
+router.get("/:id/edit", middleware.checkBlogOwnership, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
             console.log(err);
@@ -80,7 +75,7 @@ router.get("/:id/edit", isLoggedIn, (req, res) => {
 });
 
 // EDIT VIEW 
-router.put("/:id", isLoggedIn, (req, res) => {
+router.put("/:id", middleware.checkBlogOwnership, (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, blog) => {
         if (err) {
             console.log(err.message);
@@ -93,7 +88,7 @@ router.put("/:id", isLoggedIn, (req, res) => {
 
 // DELETE VIEW
 
-router.delete("/:id", isLoggedIn, (req, res) => {
+router.delete("/:id", middleware.checkBlogOwnership, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, (err, blog) => {
         if (err) {
             console.log(err.message);

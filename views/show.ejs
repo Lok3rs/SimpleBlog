@@ -23,13 +23,23 @@
                 <img src="<%= blog.img %>" alt="Image of <%= blog.title %>" class="img-fluid">
                 <p><em>Submitted by <%= blog.author.username %></em></p>
                 <p><%= blog.content %></p>
+                <% if(currentUser && blog.author.id.equals(currentUser._id)){ %>
                 <a href="/blog/<%= blog._id %>/edit" class="btn btn-primary"><i class="far fa-edit"></i>Edit post</a>
                 <form style="display: inline" method="POST" action="/blog/<%=blog._id%>?_method=DELETE">
                     <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i>Delete Post</button>
                 </form>
+                <% } %>
+                <%if(currentUser){%>
                 <a href="/blog/<%= blog._id %>/comment/new" class="btn btn-secondary">Add comment</a>
+                <%}%>
                 <% blog.comments.forEach((comment) => { %>
                 <p><strong><%= comment.author.username %></strong> - <%= comment.text %></p>
+                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                <a href="/blog/<%=blog._id%>/comment/<%=comment._id%>/edit" class="btn btn-s btn-warning">Edit</a>
+                <form action="/blog/<%=blog._id%>/comment/<%=comment._id%>?_method=DELETE" method="POST">
+                    <input type="submit" value="Delete" class="btn btn-s btn-danger">
+                </form>
+                <% } %>
                 <% }); %>
             </div>
         </div>

@@ -19,7 +19,7 @@ const indexRoutes = require("./routes/index"),
     commentRoutes = require("./routes/comments");
 
 // SEEDING DATABASE
-seedDB();
+// seedDB();
 
 // SETTING APLICATION
 mongoose.connect("mongodb+srv://Lok3rs:z3xjek39@cluster0-q5ytv.mongodb.net/test?retryWrites=true&w=majority", {
