@@ -19,8 +19,9 @@
             <div class="jumbotron pt-4">
                 <p><%= blog.created.toDateString() %></p>
                 <h2><%= blog.title %></h2>
-                
+
                 <img src="<%= blog.img %>" alt="Image of <%= blog.title %>" class="img-fluid">
+                <p><em>Submitted by <%= blog.author.username %></em></p>
                 <p><%= blog.content %></p>
                 <a href="/blog/<%= blog._id %>/edit" class="btn btn-primary"><i class="far fa-edit"></i>Edit post</a>
                 <form style="display: inline" method="POST" action="/blog/<%=blog._id%>?_method=DELETE">
@@ -28,13 +29,13 @@
                 </form>
                 <a href="/blog/<%= blog._id %>/comment/new" class="btn btn-secondary">Add comment</a>
                 <% blog.comments.forEach((comment) => { %>
-                    <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
+                <p><strong><%= comment.author.username %></strong> - <%= comment.text %></p>
                 <% }); %>
             </div>
         </div>
-        
+
     </div>
-    
+
 </div>
 
 <%- include("partials/footer") %>

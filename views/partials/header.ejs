@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,10 @@
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/f86400fae0.js" crossorigin="anonymous"></script>
     <!-- CUSTOM CSS -->
-    <link  rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
     <title>Beaches Blog</title>
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light mb-3" id="myNav">
@@ -18,7 +20,8 @@
             <a href="/blog" class="navbar-brand">
                 <img src="/media/island.svg" alt="Beach Logo">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,9 +32,11 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Gallery</a>
                     </li>
+                    <% if(currentUser){ %>
                     <li class="nav-item">
                         <a href="/blog/new" class="nav-link">Add New Post</a>
                     </li>
+                    <% } %>
                     <li class="nav-item">
                         <a href="#" class="nav-link">About me</a>
                     </li class="nav-item">
@@ -41,28 +46,24 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <% if(!currentUser){ %>
-                        <li class="nav-item">
-                            <a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"> Login</i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/register" class="nav-link"><i class="fas fa-user-plus"> Sign Up</i></a>
-                        </li>
-                        
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"> Login</i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link"><i class="fas fa-user-plus"> Sign Up</i></a>
+                    </li>
+
                     <% } else { %>
-                        <li>
-                            <a href="#" class="nav-link">Welcome <%= currentUser.username %></a>
-                        </li>
-                        <li>
-                            <a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"> Logout</i></a>
-                        </li>
+                    <li>
+                        <a href="#" class="nav-link">Welcome <%= currentUser.username %></a>
+                    </li>
+                    <li>
+                        <a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"> Logout</i></a>
+                    </li>
 
                     <% } %>
                 </ul>
             </div>
         </div>
-        
+
     </nav>
-
-   
-    
-

@@ -2,6 +2,13 @@ const express = require("express"),
     Blog = require("../models/blog"),
     router = express.Router();
 
+// middleware function checking if user is logged in, if not redirecting to login page
+const isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 //  INDEX ROUTE
 router.get("/", (req, res) => {
@@ -17,15 +24,27 @@ router.get("/", (req, res) => {
 });
 
 // NEW ROUTE
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("new");
 });
 
 // CREATE ROUTE
-router.post("/", (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
     req.body.blog.body = req.sanitize(req.body.blog.body);
-    var formData = req.body.blog;
-    Blog.create(formData, (err, newPost) => {
+    const title = req.body.blog.title,
+        img = req.body.blog.img,
+        content = req.body.blog.content,
+        author = {
+            id: req.user._id,
+            username: req.user.username
+        }
+    const newPost = {
+        title: title,
+        img: img,
+        content: content,
+        author: author
+    }
+    Blog.create(newPost, (err, newP) => {
         if (err) {
             res.render("new");
         } else {
@@ -47,7 +66,7 @@ router.get("/:id", (req, res) => {
     });
 });
 // EDIT FORM VIEW
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", isLoggedIn, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
             console.log(err);
@@ -61,7 +80,7 @@ router.get("/:id/edit", (req, res) => {
 });
 
 // EDIT VIEW 
-router.put("/:id", (req, res) => {
+router.put("/:id", isLoggedIn, (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, blog) => {
         if (err) {
             console.log(err.message);
@@ -74,7 +93,7 @@ router.put("/:id", (req, res) => {
 
 // DELETE VIEW
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", isLoggedIn, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, (err, blog) => {
         if (err) {
             console.log(err.message);
