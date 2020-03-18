@@ -5,6 +5,7 @@ const methodOverride = require("method-override"),
     mongoose = require("mongoose"),
     Blog = require("./models/blog"),
     express = require("express"),
+    flash = require("connect-flash"),
     app = express(),
     seedDB = require("./seed"),
     Comment = require("./models/comment"),
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(sanitizer());
 app.use(methodOverride("_method"));
+app.use(flash());
 app.use(require("express-session")({
     secret: "Fafik is the best dog in the world",
     resave: false,
@@ -53,6 +55,8 @@ passport.deserializeUser(User.deserializeUser());
 // providing current logged (or not) user to every each page as a middleware
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 

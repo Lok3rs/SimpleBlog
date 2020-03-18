@@ -3,14 +3,6 @@ const express = require("express"),
     passport = require("passport"),
     User = require("../models/user");
 
-// middleware function checking if user is logged in, if not redirecting to login page
-const isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-
 
 
 // =======================
@@ -24,10 +16,13 @@ router.post("/register", (req, res) => {
         email: req.body.email
     }), req.body.password, (err, user) => {
         if (err) {
-            console.log(err);
-            return res.render("register");
+            req.flash("error", err.message);
+            res.render("register");
         }
-        passport.authenticate("local")(req, res, () => res.redirect("/blog"));
+        passport.authenticate("local")(req, res, () => {
+            req.flash("success", `Succesfully registrated! Welcome ${user.username}!`)
+            res.redirect("/blog")
+        });
     });
 });
 
@@ -37,11 +32,12 @@ router.post("/login", passport.authenticate("local", {
     successRedirect: "/blog",
     failureRedirect: "/login"
 }), (req, res) => {
-    console.log("${currentUser.username} logged in");
+    console.log(`${currentUser.username} logged in`);
 });
 
 router.get("/logout", (req, res) => {
     req.logout();
+    req.flash("success", "Logged out! See you again!")
     res.redirect("/blog");
 });
 

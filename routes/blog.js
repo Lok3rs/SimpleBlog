@@ -41,8 +41,10 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     }
     Blog.create(newPost, (err, newP) => {
         if (err) {
+            req.flash("error", err.message)
             res.render("new");
         } else {
+            req.flash("success", "Post created!")
             res.redirect("/blog");
         }
     });
@@ -52,6 +54,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
 router.get("/:id", (req, res) => {
     Blog.findById(req.params.id).populate("comments").exec((err, blog) => {
         if (err) {
+            req.flash("error", "Didn't find that post")
             res.redirect("/");
         } else {
             res.render("show", {
@@ -64,7 +67,6 @@ router.get("/:id", (req, res) => {
 router.get("/:id/edit", middleware.checkBlogOwnership, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
-            console.log(err);
             res.redirect("/");
         } else {
             res.render("edit", {
@@ -94,6 +96,7 @@ router.delete("/:id", middleware.checkBlogOwnership, (req, res) => {
             console.log(err.message);
             res.redirect("/blog");
         } else {
+            req.flash("success", "Succesfully deleted post!")
             res.redirect("/blog");
         }
     });
