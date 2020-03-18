@@ -1,0 +1,24 @@
+<%- include("partials/header") %>
+<div class="container">
+    <form action="/blog/<%= blog._id %>?_method=PUT" method="POST">
+        <div class="form-group">
+            <label for="blogTitle">Post title</label>
+            <input type="text" name="blog[title]" class="form-control" id="blogTitle" value="<%= blog.title %>">
+            <small id="emailHelp" class="form-text text-muted">Keep it short and simple.</small>
+            <label for="blogImg">Image URL</label>
+            <input type="text" name="blog[img]" class="form-control" id="blogImg" value="<%= blog.img %>">
+            <small id="emailHelp" class="form-text text-muted">
+                We didn't reach uploading fotos to our server yet, please provide image url.
+            </small>
+            <label for="blogContent">Your post goes here: </label>
+            <textarea name="blog[content]" cols="30" rows="10" class="form-control" id="blogContent"><%= blog.content %>
+            </textarea>
+            <input type="submit" value="Accept edition" class="btn btn-lg btn-primary mt-2">
+            <a href="/blog/<%= blog._id %>" class="btn btn-lg btn-danger mt-2">Return</a>
+        </div>
+
+    </form>
+</div>
+
+
+<%- include("partials/footer") %>

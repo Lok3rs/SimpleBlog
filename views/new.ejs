@@ -1,0 +1,22 @@
+<%- include("partials/header") %>
+<div class="container">
+    <h1>Creating a new post</h1>
+    <form action="/blog" method="POST">
+        <div class="form-group">
+            <label for="blogTitle">Post title</label>
+            <input type="text" name="blog[title]" class="form-control" id="blogTitle">
+            <small id="emailHelp" class="form-text text-muted">Keep it short and simple.</small>
+            <label for="blogImg">Image URL</label>
+            <input type="text" name="blog[img]" class="form-control" id="blogImg">
+            <small id="emailHelp" class="form-text text-muted">
+                We didn't reach uploading fotos to our server yet, please provide image url.
+            </small>    
+            <label for="blogContent">Your post goes here: </label>
+            <textarea name="blog[content]" cols="30" rows="10" class="form-control" id="blogContent"></textarea>
+            <input type="submit" value="Publish" class="btn btn-lg btn-primary mt-2">
+        </div>
+    </form>
+</div>
+
+
+<%- include("partials/footer") %>

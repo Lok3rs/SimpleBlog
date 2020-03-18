@@ -1,0 +1,35 @@
+/* BODY */
+body{
+    background: #83a4d4;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+/* NAV */
+#myNav{
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 1.3rem;
+}
+i.fas{
+    font-size: 1.5rem;
+}
+.navbar-brand img{
+    height: 70px;
+}
+
+/* index.ejs */
+.card{
+    width: 80%;
+    background: #ffb347;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffcc33, #ffb347);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffcc33, #ffb347); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+/* show */
+.jumbotron{
+    background: rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.rating-stars{
+    font-size: 2rem;
+}
