@@ -67,7 +67,8 @@ router.get("/:id", (req, res) => {
 router.get("/:id/edit", middleware.checkBlogOwnership, (req, res) => {
     Blog.findById(req.params.id, (err, blog) => {
         if (err) {
-            res.redirect("/");
+            req.flash("No permission to do that!")
+            res.redirect("back");
         } else {
             res.render("edit", {
                 blog: blog

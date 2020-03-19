@@ -3,7 +3,10 @@ const express = require("express"),
     passport = require("passport"),
     User = require("../models/user");
 
-
+//root route
+router.get("/", function (req, res) {
+    res.render("landing");
+});
 
 // =======================
 // AUTH/LOGIN ROUTES
@@ -41,10 +44,7 @@ router.get("/logout", (req, res) => {
     res.redirect("/blog");
 });
 
-// RESTFUL ROUTES
-router.get("/", (req, res) => {
-    res.redirect("/blog");
-});
+
 
 
 module.exports = router;
