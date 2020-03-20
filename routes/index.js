@@ -23,7 +23,7 @@ router.post("/register", (req, res) => {
     (err, user) => {
       if (err) {
         req.flash("error", err.message);
-        res.render("register");
+        res.redirect("/register");
       }
       passport.authenticate("local")(req, res, () => {
         req.flash(
@@ -42,7 +42,8 @@ router.post(
   "/login",
   passport.authenticate("local", {
     successRedirect: "/blog",
-    failureRedirect: "/login"
+    failureRedirect: "/login",
+    failureFlash: true
   }),
   (req, res) => {
     console.log(`${currentUser.username} logged in`);
